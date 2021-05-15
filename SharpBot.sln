@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SharpBot", "SharpBot\SharpBot.fsproj", "{53E0569B-ED1C-4C27-ABFF-060FA84770EF}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MefBattle", "MefBattle\MefBattle.fsproj", "{3E6050A1-FBE1-43E8-8B51-203C5111BEA6}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Common", "Common\Common.fsproj", "{EBD793E1-57E1-4833-B7EB-7B05BD0A940F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53E0569B-ED1C-4C27-ABFF-060FA84770EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E0569B-ED1C-4C27-ABFF-060FA84770EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E0569B-ED1C-4C27-ABFF-060FA84770EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E0569B-ED1C-4C27-ABFF-060FA84770EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E6050A1-FBE1-43E8-8B51-203C5111BEA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E6050A1-FBE1-43E8-8B51-203C5111BEA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E6050A1-FBE1-43E8-8B51-203C5111BEA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E6050A1-FBE1-43E8-8B51-203C5111BEA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD793E1-57E1-4833-B7EB-7B05BD0A940F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD793E1-57E1-4833-B7EB-7B05BD0A940F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD793E1-57E1-4833-B7EB-7B05BD0A940F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD793E1-57E1-4833-B7EB-7B05BD0A940F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

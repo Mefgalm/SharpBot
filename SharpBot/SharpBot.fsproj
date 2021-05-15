@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <WarningsAsErrors>FS0025</WarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Rand.fs" />
+        <Compile Include="Types.fs" />
+        <Compile Include="Domain\Dice.fs" />
+        <Compile Include="Twitch\TwitchConfig.fs" />
+        <Compile Include="Twitch\Commands\Dice.fs" />
+        <Compile Include="Twitch\Commands\Game.fs" />
+        <Compile Include="Twitch\Commands\Ruin.fs" />
+        <Compile Include="Twitch\Commands\Discord.fs" />
+        <Compile Include="Twitch\Commands\CSharpRun.fs" />
+        <Compile Include="Twitch\Commands\WhereIsWebCam.fs" />
+        <Compile Include="Twitch\Commands\DynamicCommand.fs" />
+        <Compile Include="Twitch\TwitchIrcClient.fs" />
+        <Compile Include="Twitch\Database\Db.fs" />
+        <Compile Include="Twitch\Database\RuinDb.fs" />
+        <Compile Include="Twitch\Database\DynamicCommandDb.fs" />
+        <Compile Include="Twitch\Runner.fs" />
+        <Compile Include="Twitch\Chat.fs" />
+        
+        <Compile Include="Program.fs" />
+        
+        <Content Include="appsettings.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>        
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DynamicExpresso.Core" Version="2.4.0" />
+      <PackageReference Include="FsToolkit.ErrorHandling" Version="2.2.0" />
+      <PackageReference Include="LiteDB.FSharp" Version="2.16.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MefBattle\MefBattle.fsproj" />
+    </ItemGroup>
+
+</Project>
