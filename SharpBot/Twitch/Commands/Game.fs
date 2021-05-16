@@ -89,7 +89,7 @@ let private responseToString (response: Response) (now: DateTime) =
     | Response.BattleBegins mins ->
         $"Let's the battle begins for {mins} mins"
     | Response.PlayerActions spells ->
-        let spellsStr = spells |> List.map spellView |> String.concat "| "
+        let spellsStr = spells |> List.map spellView |> String.concat " | "
         $"Sample: !attack @{{nick}}. Your actions: {spellsStr}"
         
         
