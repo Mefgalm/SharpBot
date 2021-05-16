@@ -68,6 +68,7 @@ type Response =
     | EffectInfo of EffectInfo list
     | Who of Player
     | Hp of nick: string * int
+    | PlayerActions of Spell list
     | GameOver
     
 let generateHp () =
@@ -96,7 +97,7 @@ let private cast player target spell =
         { TargetId = targetId
           Effect = effects }
     
-    let gcdEffect = createEffectInfo player.Id (AddGCD 5)
+    let gcdEffect = createEffectInfo player.Id (AddGCD 60)
     
     let targetEffects =
         let ce = createEffectInfo target.Id

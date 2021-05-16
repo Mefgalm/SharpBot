@@ -21,8 +21,7 @@ type ChatCommand =
     | AddDynamicCommand of self: string * command: string * content: string
     | RemoveDynamicCommand of self: string * command: string
     | GetDynamicCommandContext of command: string
-    
-    
+    | PlayersActions of self: string
     
 type Model =
     { RuinCount: int }

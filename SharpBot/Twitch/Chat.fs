@@ -73,6 +73,8 @@ let createChatCommand (nick, (msg: string)) =
             cc <| ChatCommand.DiceRoll(count, power)
         | RegEx "!join +(\w+)" [ playerClass ] ->
             cc <| ChatCommand.JoinBattle (nick, playerClass)
+        | RegEx "!rules" [] ->
+            cc <| ChatCommand.PlayersActions nick
         | RegEx "!(\w+) +@([\w_]+)" [ spellName; targetNick ] ->
             cc <| ChatCommand.Cast(nick, toLower targetNick, toLower spellName)
         | RegEx "!([a-zA-ZА-Яа-я]+)" [command] ->

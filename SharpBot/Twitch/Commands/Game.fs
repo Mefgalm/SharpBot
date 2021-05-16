@@ -31,6 +31,7 @@ type BattleCommandType =
     | Action of target: string * spell: string
     | Who of target: string
     | Hp of target: string
+    | PlayerActions of target: string
     | GameOver
     
 type BattleCommand =
@@ -44,7 +45,7 @@ let private effectView effect =
     | HealTaken heal ->
         $"heal {heal}"
     | StatusApplied (status, untilTimeSpan) ->
-        $"status {status} for {untilTimeSpan.Seconds}"
+        $"status {status} for {int untilTimeSpan.TotalSeconds}"
     | AddGCD gcd ->
         $"gcd for: {gcd}"
         
@@ -58,6 +59,20 @@ let private playerView now player =
     let str = player.StatusInfos |> List.map (statusInfoView now) |> String.concat ", "
     $"Nick: {player.Id}, class: {player.Class}, hp: {player.Hp}, statues: [{str}]"
     
+let private spellView =
+    function
+    | WizardSpell Fireball ->
+        "'fireball' 1d10"
+    | WizardSpell Sheep ->
+        "'sheep'(damage cancel this effect) for 5 mins. "
+    | WarriorSpell Attack ->
+        "'attack' 2d6"
+    | WarriorSpell StunAttack ->
+        "'stun' for 1 min"
+    | HealerSpell Smite ->
+        "'smite' 1d6"
+    | HealerSpell Heal ->
+        "'heal' 1d6"
     
 let private responseToString (response: Response) (now: DateTime) =
     match response with
@@ -73,7 +88,11 @@ let private responseToString (response: Response) (now: DateTime) =
         "Game over"
     | Response.BattleBegins mins ->
         $"Let's the battle begins for {mins} mins"
-    
+    | Response.PlayerActions spells ->
+        let spellsStr = spells |> List.map spellView |> String.concat "| "
+        $"Sample: !attack @{{nick}}. Your actions: {spellsStr}"
+        
+        
 let private battleErrorToString = function
     | BattleError.AlreadyJoined -> "Already joined"
     | Dead nick -> $"{nick}, you are dead"
@@ -99,6 +118,9 @@ let action nick targetNick spellStr reviveAfterMins now battle =
 let who nick battle =
     who nick battle |> Result.mapError battleErrorToString
     
+let playerAction nick battle =
+    playerActions nick battle |> Result.mapError battleErrorToString
+    
 let myHp nick battle =
     myHp nick battle |> Result.mapError battleErrorToString
     
@@ -117,7 +139,6 @@ let battleMb (config: TwitchConfig) (chatMb: MailboxProcessor<ChatCommand>) = Ma
         match response with
         | Response.GameOver -> inbox.Post { Nick = ""; Type = GameOver }
         | _ -> ()
-    
     
     let rec loop (battleOpt: (Battle * CancellationTokenSource) option) = async {
         let now = DateTime.UtcNow
@@ -145,6 +166,8 @@ let battleMb (config: TwitchConfig) (chatMb: MailboxProcessor<ChatCommand>) = Ma
             return! loop (Some (updateBattleAndSend battle (action command.Nick target spellStr config.ReviveAfterMins DateTime.UtcNow), cts))
         | Who target, Some (battle, cts) ->
             return! loop (Some (updateBattleAndSend battle (who target), cts))
+        | PlayerActions target, Some (battle, cts) ->
+            return! loop (Some (updateBattleAndSend battle (playerAction target), cts))
         | Hp target, Some (battle, cts) ->
             return! loop (Some (updateBattleAndSend battle (myHp target), cts))
         | GameOver, Some (_, cts) ->

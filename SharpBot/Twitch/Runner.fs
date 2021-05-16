@@ -53,6 +53,8 @@ let private runCommand config chatMb (battleMb: MailboxProcessor<BattleCommand>)
              match DynamicCommandDb.tryGet command with
              | Some command -> do! callback command.Content
              | None -> ()
+        | ChatCommand.PlayersActions self ->
+            battleMb.Post <| cb "" (PlayerActions self)
         | ChatCommand.PrintText text ->
             do! callback text         
     }

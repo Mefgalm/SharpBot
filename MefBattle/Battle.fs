@@ -120,6 +120,18 @@ let who playerNick battle = result {
     return (Some <| Who player, battle)
 }
 
+let playerActions playerNick battle = result {
+    let! player = battle |> checkPlayer playerNick
+    
+    let spells =
+        match player.Class with
+        | Warrior -> [WarriorSpell Attack; WarriorSpell StunAttack]
+        | Wizard -> [WizardSpell Fireball; WizardSpell Sheep]
+        | Healer -> [HealerSpell Smite; HealerSpell Heal]
+    
+    return (Some <| PlayerActions spells, battle)
+}
+
 let myHp playerNick battle = result {
     let! player = battle |> checkPlayer playerNick
     return (Some <| Hp (playerNick, player.Hp), battle)
