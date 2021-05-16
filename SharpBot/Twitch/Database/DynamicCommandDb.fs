@@ -1,8 +1,6 @@
 ﻿module SharpBot.Twitch.Database.DynamicCommandDb
 
 open LiteDB.FSharp.Extensions
-open SharpBot.Twitch.Commands
-open SharpBot.Twitch.Commands.Ruin
 open SharpBot.Twitch.Commands.DynamicCommand
 open Db
 

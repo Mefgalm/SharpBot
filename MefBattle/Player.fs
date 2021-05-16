@@ -71,7 +71,7 @@ type Response =
     | GameOver
     
 let generateHp () =
-    Roll.diceThrows 2 6 |> Array.sort |> Array.tail |> Array.sum
+    Roll.diceThrows 4 6 |> Array.sort |> Array.tail |> Array.sum
     
 let create nick playerClass =
     { Id = nick
