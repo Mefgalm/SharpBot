@@ -1,1 +1,1 @@
-# SharpBot
+Twitch bot
