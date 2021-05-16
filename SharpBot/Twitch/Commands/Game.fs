@@ -92,13 +92,12 @@ let private responseToString (response: Response) (now: DateTime) =
         let spellsStr = spells |> List.map spellView |> String.concat " | "
         $"Sample: !attack @{{nick}}. Your actions: {spellsStr}"
         
-        
 let private battleErrorToString = function
     | BattleError.AlreadyJoined -> "Already joined"
     | Dead nick -> $"{nick}, you are dead"
     | InvalidSpellForClass -> "Invalid spell"
     | UnableToAction -> "Unable to action"
-    | PlayerNotFound nick -> $"{nick} not found"
+    | PlayerNotFound nick -> $"{nick} not in the battle"
     | SpellNotFound spell -> $"{spell} not found"
     | ClassNotFound classStr -> $"{classStr} not found"
     | OnGCD (nick, secondsLeft) -> $"{nick} you have GCD, seconds left {secondsLeft}"
