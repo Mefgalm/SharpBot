@@ -14,13 +14,13 @@ type Battle =
 let private gameOverAsync callback (sleep: int) =
     async {
         do! Async.Sleep sleep
-        callback Response.GameOver
+        callback BattleResponse.GameOver
     }
 
 let init endAfterMins callback (now: DateTime) =
     let sleepMiilis = (int) (endAfterMins * 60. * 1000.)
     
-    Some (Response.BattleBegins (int endAfterMins)),    
+    Some (BattleResponse.BattleBegins (int endAfterMins)),    
     { Players = []
       EndDateTime = now.AddMinutes(endAfterMins) },
     gameOverAsync callback sleepMiilis
@@ -44,7 +44,7 @@ let join nick playerClassStr battle = result {
     let! playerClass = getPlayerClass playerClassStr
     let player = create nick playerClass
     let newBattle = { battle with Players = player:: battle.Players }
-    return (Some <| Response.Joined player, newBattle)
+    return (Some <| BattleResponse.Joined player, newBattle)
 }
         
 let private checkPlayer nick battle =
@@ -121,12 +121,12 @@ let action playerNick targetNick spell reviveAfterMins now battle = result {
     let! effectInfos = invoke player spell target now
     let postBattle = applyEffectInfo effectInfos preBattle now
     
-    return (Some <| Response.EffectInfo (filterEffectsToResponse effectInfos), postBattle)
+    return (Some <| BattleResponse.EffectInfo (filterEffectsToResponse effectInfos), postBattle)
 }
 
 let who playerNick battle = result {
     let! player = battle |> checkPlayer playerNick
-    return (Some <| Who player, battle)
+    return (Some <| BattleResponse.Who player, battle)
 }
 
 let playerActions playerNick battle = result {
@@ -138,10 +138,10 @@ let playerActions playerNick battle = result {
         | Wizard -> [WizardSpell Fireball; WizardSpell Sheep]
         | Healer -> [HealerSpell Smite; HealerSpell Heal]
     
-    return (Some <| PlayerActions spells, battle)
+    return (Some <| BattleResponse.PlayerActions spells, battle)
 }
 
 let myHp playerNick battle = result {
     let! player = battle |> checkPlayer playerNick
-    return (Some <| Hp (playerNick, player.Hp), battle)
+    return (Some <| BattleResponse.Hp (playerNick, player.Hp), battle)
 }

@@ -62,7 +62,8 @@ type BattleError =
     | ClassNotFound of classStr: string
     | OnGCD of self: string * secondsLeft: int
 
-type Response =
+[<RequireQualifiedAccess>]
+type BattleResponse =
     | BattleBegins of int
     | Joined of Player
     | EffectInfo of EffectInfo list

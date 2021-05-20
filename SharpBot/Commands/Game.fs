@@ -9,7 +9,7 @@ open SharpBot
 
     
 type BattleCommand =
-    | RegisterCallback of callback: (Response -> Async<unit>)
+    | RegisterCallback of callback: (BattleResponse -> Async<unit>)
     | Init of int
     | Join of self: string * playerClass: string
     | Action of self: string * target: string * spell: string
@@ -33,14 +33,14 @@ let private getBattleAndSend callbacks (oldBattle: Battle) f = async {
         | Ok (None, battle) ->
             return battle
         | Error e ->
-            do! sendCallbacks callbacks (BattleError e)
+            do! sendCallbacks callbacks (BattleResponse.BattleError e)
             return oldBattle
     }
     
 let battleMb reviveAfterMins = MailboxProcessor.Start(fun inbox ->
     let callback response = 
         match response with
-        | Response.GameOver -> inbox.Post GameOver
+        | BattleResponse.GameOver -> inbox.Post GameOver
         | _ -> ()
     
     let rec loop (battleOpt: (Battle * CancellationTokenSource) option) callbacks = async {
@@ -83,7 +83,7 @@ let battleMb reviveAfterMins = MailboxProcessor.Start(fun inbox ->
             return! loop (Some (battle, cts)) callbacks
         | GameOver, Some (_, cts) ->
             cts.Cancel()
-            do! sendCallbacks callbacks <| Response.GameOver 
+            do! sendCallbacks callbacks <| BattleResponse.GameOver 
             return! loop None callbacks
         | _, None ->
             return! loop None callbacks

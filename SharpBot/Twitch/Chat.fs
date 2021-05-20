@@ -114,9 +114,9 @@ let run () =
         
         gameMb.Post (BattleCommand.RegisterCallback (fun response ->
             match response with
-            | Response.BattleBegins _ ->
+            | BattleResponse.BattleBegins _ ->
                 printfn "Start update"
-            | Response.GameOver ->
+            | BattleResponse.GameOver ->
                 printfn "End update"
             | _ ->
                 printfn "Update"

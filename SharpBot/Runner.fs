@@ -16,7 +16,7 @@ type RunnerResponse =
     | Run of string
     | DiceRoll of int list * int option * int
     | DynamicCommandContent of string
-    | BattleResponse of Response
+    | BattleResponse of BattleResponse
     
 let private runCommand config (battleMb: MailboxProcessor<BattleCommand>) callback chatCommand =
     async {

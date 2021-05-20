@@ -50,24 +50,24 @@ let private battleErrorToString = function
     | ClassNotFound classStr -> $"{classStr} not found"
     | OnGCD (nick, secondsLeft) -> $"{nick} you have GCD, seconds left {secondsLeft}"
     
-let private responseToString (response: Response) (now: DateTime) =
+let private responseToString (response: BattleResponse) (now: DateTime) =
     match response with
-    | Joined player ->
+    | BattleResponse.Joined player ->
         playerView now player 
-    | EffectInfo effectInfos ->
+    | BattleResponse.EffectInfo effectInfos ->
         effectInfos |> List.map effectInfoView |> String.concat ", "
-    | Response.Who player ->
+    | BattleResponse.Who player ->
         playerView now player 
-    | Response.Hp (nick, hp) ->
+    | BattleResponse.Hp (nick, hp) ->
         $"{nick} hp: {hp}"
-    | Response.GameOver ->
+    | BattleResponse.GameOver ->
         "Game over"
-    | Response.BattleBegins mins ->
+    | BattleResponse.BattleBegins mins ->
         $"Let's the battle begins for {mins} mins"
-    | Response.PlayerActions spells ->
+    | BattleResponse.PlayerActions spells ->
         let spellsStr = spells |> List.map spellView |> String.concat " | "
         $"Sample: !attack @{{nick}}. Your actions: {spellsStr}"
-    | Response.BattleError error ->
+    | BattleResponse.BattleError error ->
         battleErrorToString error
     
 let runnerResponseToString (runnerResponse:  RunnerResponse) (now: DateTime) =
