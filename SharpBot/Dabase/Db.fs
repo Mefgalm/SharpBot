@@ -1,4 +1,4 @@
-﻿module SharpBot.Twitch.Database.Db
+﻿module SharpBot.Database.Db
 
 open LiteDB
 open LiteDB.FSharp

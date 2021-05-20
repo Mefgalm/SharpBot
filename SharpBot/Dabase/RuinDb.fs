@@ -1,7 +1,7 @@
-﻿module SharpBot.Twitch.Database.RuinDb
+﻿module SharpBot.Database.RuinDb
 
 open LiteDB.FSharp.Extensions
-open SharpBot.Twitch.Commands.Ruin
+open SharpBot.Commands.Ruin
 open Db
 
 

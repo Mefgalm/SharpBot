@@ -1,4 +1,4 @@
-﻿module SharpBot.Twitch.Commands.DynamicCommand
+﻿module SharpBot.Commands.DynamicCommand
 
 [<CLIMutable>]
 type DynamicCommand =

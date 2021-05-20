@@ -1,4 +1,4 @@
-﻿module SharpBot.Twitch.Commands.WhereIsWebCam
+﻿module SharpBot.Commands.WhereIsWebCam
 
 let whereIsWebCam =
     "Когда-нибудь :)"

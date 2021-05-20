@@ -70,6 +70,7 @@ type Response =
     | Hp of nick: string * int
     | PlayerActions of Spell list
     | GameOver
+    | BattleError of BattleError
     
 let generateHp () =
     Roll.diceThrows 4 6 |> Array.sort |> Array.tail |> Array.sum
@@ -157,7 +158,19 @@ let applyEffect (now: DateTime) player effect =
 let applyEffects player effects now =
     effects |> List.fold (applyEffect now) player
     
-let invoke player spell target now = result {
+let getSpell =
+    function
+    | "fireball" -> Ok <| WizardSpell Fireball
+    | "sheep" -> Ok <| WizardSpell Sheep
+    | "attack" -> Ok <| WarriorSpell Attack
+    | "stun" -> Ok <| WarriorSpell StunAttack
+    | "smite" -> Ok <| HealerSpell Smite
+    | "heal" -> Ok <| HealerSpell Heal
+    | x -> Error <| BattleError.SpellNotFound x
+    
+    
+let invoke player spellStr target now = result {
+    let! spell = getSpell spellStr
     do! validateCast player.Class spell
     do! validatePlayerEnableToActing player now
     do! shouldBeAlive player

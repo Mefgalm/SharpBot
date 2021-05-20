@@ -1,4 +1,4 @@
-﻿module SharpBot.Twitch.Commands.CSharpRun
+﻿module SharpBot.Commands.CSharpRun
 
 open DynamicExpresso
 

@@ -31,8 +31,17 @@ let private checkAlreadyInBattle nick battle =
     else
         Ok ()
     
-let join nick playerClass battle = result {
+
+let getPlayerClass =
+    function
+    | "wiz" -> Ok <| PlayerClass.Wizard
+    | "war" -> Ok <| PlayerClass.Warrior
+    | "heal" -> Ok <| PlayerClass.Healer
+    | x -> Error <| BattleError.ClassNotFound x 
+    
+let join nick playerClassStr battle = result {
     do! checkAlreadyInBattle nick battle
+    let! playerClass = getPlayerClass playerClassStr
     let player = create nick playerClass
     let newBattle = { battle with Players = player:: battle.Players }
     return (Some <| Response.Joined player, newBattle)
@@ -103,7 +112,7 @@ let private filterEffectsToResponse effectInfos =
         | _ -> false)
         effectInfos
     
-let action playerNick targetNick spell reviveAfterMins battle now = result {
+let action playerNick targetNick spell reviveAfterMins now battle = result {
     let preBattle = preBattleChecks reviveAfterMins now battle
     
     let! player = preBattle |> checkPlayer playerNick

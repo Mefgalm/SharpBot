@@ -3,12 +3,16 @@
 open System
 open System.Text.RegularExpressions
 open Common
+open MefBattle.Player
 open Newtonsoft.Json
 open SharpBot
 open SharpBot.Config
 open SharpBot.Twitch
 open System.IO
-open SharpBot.Twitch.Database
+open SharpBot.Commands
+open SharpBot.Commands.Game
+open SharpBot.Database
+open SharpBot.Runner
 
 let toLower (str: string) = str.ToLower() 
 
@@ -25,11 +29,9 @@ let private parseMessage =
             if m.Success
             then Some(toLower m.Groups.[1].Value, toLower m.Groups.[2].Value)
             else None
-    
-
-    
-let chatCallback (client: TwitchIrcClient) str =
-    client.SendMessageAsync str
+   
+let chatCallback (client: TwitchIrcClient) (runnerResponse: RunnerResponse) =
+    client.SendMessageAsync (Views.runnerResponseToString runnerResponse DateTime.UtcNow)
 
 let private pinger (client: TwitchIrcClient) =
     let rec loop () =
@@ -46,13 +48,9 @@ let createChatCommand (nick, (msg: string)) =
     if msg.StartsWith("!") then
         match msg with
         | RegEx "!руина" _ ->
-            cc ChatCommand.Ruin
-        | RegEx "!discord" _ ->
-            cc ChatCommand.Discord
+            cc ChatCommand.Ruin        
         | RegEx "!run (.+)" [ code ] ->
-            cc <| ChatCommand.Run code
-        | RegEx "!гдевебка" _ ->
-            cc <| ChatCommand.WhereIsWebCam
+            cc <| ChatCommand.Run code        
         | RegEx "!who +@([\w_]+)" [target] ->
             cc <| ChatCommand.Who (toLower target) 
         | RegEx "!hp +@([\w_]+)" [target] ->
@@ -112,8 +110,21 @@ let run () =
         
         let config = loadConfig()
         
+        let gameMb = Game.battleMb config.ReviveAfterMins
+        
+        gameMb.Post (BattleCommand.RegisterCallback (fun response ->
+            match response with
+            | Response.BattleBegins _ ->
+                printfn "Start update"
+            | Response.GameOver ->
+                printfn "End update"
+            | _ ->
+                printfn "Update"
+            
+            async.Return ()))
+        
         use twitchIrcClient = new TwitchIrcClient("irc.twitch.tv", 6667, "botomef", config.OAuth, "mefgalm")
-        let chat = Runner.createChatMb config (chatCallback twitchIrcClient)
+        let chat = Runner.createChatMb gameMb config (chatCallback twitchIrcClient)
         
         do! Async.StartChild (pinger twitchIrcClient) |> Async.Ignore
         do! reader chat twitchIrcClient

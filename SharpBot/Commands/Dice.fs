@@ -1,4 +1,4 @@
-﻿module SharpBot.Twitch.Commands.Dice
+﻿module SharpBot.Commands.Dice
 
 open FsToolkit.ErrorHandling
 open SharpBot
@@ -29,7 +29,7 @@ let dice countInt powerInt plusOpt =
         return msg
     }
     
-let throw (chatMb: MailboxProcessor<ChatCommand>) countInt powerInt plusOpt =
-    match dice countInt powerInt plusOpt with
-    | Some msg -> chatMb.Post (ChatCommand.PrintText msg)
-    | None -> ()
+//let throw (chatMb: MailboxProcessor<ChatCommand>) countInt powerInt plusOpt =
+//    match dice countInt powerInt plusOpt with
+//    | Some msg -> chatMb.Post (ChatCommand.PrintText msg)
+//    | None -> ()

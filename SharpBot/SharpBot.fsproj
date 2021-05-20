@@ -10,26 +10,28 @@
         <Compile Include="Rand.fs" />
         <Compile Include="Types.fs" />
         <Compile Include="Domain\Dice.fs" />
+
+        <Compile Include="Commands\Dice.fs" />
+        <Compile Include="Commands\Game.fs" />
+        <Compile Include="Commands\Ruin.fs" />
+        <Compile Include="Commands\Discord.fs" />
+        <Compile Include="Commands\CSharpRun.fs" />
+        <Compile Include="Commands\WhereIsWebCam.fs" />
+        <Compile Include="Commands\DynamicCommand.fs" />
+        <Compile Include="Dabase\Db.fs" />
+        <Compile Include="Dabase\RuinDb.fs" />
+        <Compile Include="Dabase\DynamicCommandDb.fs" />
+        <Compile Include="Runner.fs" />  
         <Compile Include="Twitch\TwitchConfig.fs" />
-        <Compile Include="Twitch\Commands\Dice.fs" />
-        <Compile Include="Twitch\Commands\Game.fs" />
-        <Compile Include="Twitch\Commands\Ruin.fs" />
-        <Compile Include="Twitch\Commands\Discord.fs" />
-        <Compile Include="Twitch\Commands\CSharpRun.fs" />
-        <Compile Include="Twitch\Commands\WhereIsWebCam.fs" />
-        <Compile Include="Twitch\Commands\DynamicCommand.fs" />
         <Compile Include="Twitch\TwitchIrcClient.fs" />
-        <Compile Include="Twitch\Database\Db.fs" />
-        <Compile Include="Twitch\Database\RuinDb.fs" />
-        <Compile Include="Twitch\Database\DynamicCommandDb.fs" />
-        <Compile Include="Twitch\Runner.fs" />
+        <Compile Include="Twitch\Views.fs" />
         <Compile Include="Twitch\Chat.fs" />
-        
+
         <Compile Include="Program.fs" />
-        
         <Content Include="appsettings.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>        
+        </Content>
+              
     </ItemGroup>
 
     <ItemGroup>
